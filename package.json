@@ -1,0 +1,46 @@
+{
+  "name": "puterjs",
+  "version": "1.0.0",
+  "description": "A wrapper around puterjs",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:esm": "tsc --module ESNext --outDir dist/esm && mv dist/esm/index.js dist/index.mjs",
+    "build:cjs": "tsc --module CommonJS --outDir dist/cjs && mv dist/cjs/index.js dist/index.cjs",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "prepare": "npm run build",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "puter",
+    "typescript",
+    "types",
+    "cloud",
+    "api",
+    "kv",
+    "ai"
+  ],
+  "author": "darshan",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.5.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  }
+}
