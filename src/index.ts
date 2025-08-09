@@ -7,10 +7,7 @@
  * 2. Or install @types/node for server-side usage with appropriate DOM polyfills
  */
 
-// ============================================================================
 // AI MODULE TYPES
-// ============================================================================
-
 export type PuterAIModel =
   | "gpt-4o-mini"
   | "gpt-4o"
@@ -155,20 +152,14 @@ export interface PuterAISpeechOptions {
   engine?: PuterAISpeechEngine;
 }
 
-// ============================================================================
 // AUTH MODULE TYPES
-// ============================================================================
-
 export interface PuterUser {
   uuid: string;
   username: string;
   email_confirmed: boolean;
 }
 
-// ============================================================================
 // KEY-VALUE STORE TYPES
-// ============================================================================
-
 export type PuterKVValue =
   | string
   | number
@@ -181,10 +172,7 @@ export interface PuterKVListItem {
   value: PuterKVValue;
 }
 
-// ============================================================================
 // FILESYSTEM TYPES
-// ============================================================================
-
 export interface PuterFSOptions {
   overwrite?: boolean;
   dedupeName?: boolean;
@@ -210,10 +198,7 @@ export interface PuterFSItem {
   [key: string]: unknown; // Allow for additional properties
 }
 
-// ============================================================================
 // MAIN PUTER INTERFACE
-// ============================================================================
-
 export interface PuterAI {
   // Chat method overloads - returns string for simple cases, structured response for function calling
   chat(prompt: string): Promise<string>;
@@ -382,15 +367,13 @@ export interface Puter {
   fs: PuterFS;
 }
 
-// ============================================================================
 // UTILITY FUNCTIONS
-// ============================================================================
 
 /**
  * Checks if the Puter.js script is loaded in the current document
  * @returns true if the script is found, false otherwise
  */
-export function isPuterScriptLoaded(): boolean {
+export function isPuterScriptLoaded() {
   if (typeof document === "undefined") {
     console.warn(
       "isPuterScriptLoaded() can only be used in browser environments"
@@ -401,10 +384,11 @@ export function isPuterScriptLoaded(): boolean {
   const scripts = document.querySelectorAll("script[src]");
   return Array.from(scripts).some((script) => {
     const src = script.getAttribute("src");
-    return (
-      src === "https://js.puter.com/v2/" ||
-      src === "https://js.puter.com/v2/index.js"
-    );
+    if (!src) return false;
+
+    // Check if src starts with "https://js.puter.com/v" followed by any version and optional "index.js"
+    const regex = /^https:\/\/js\.puter\.com\/v\d+\/?(index\.js)?$/;
+    return regex.test(src);
   });
 }
 
